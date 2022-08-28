@@ -7,11 +7,16 @@
 
 import UIKit
 
+protocol DiaryRegisterViewControllerDelegate: AnyObject {
+    func createDiary(_ diaryInfo: DiaryProtocol)
+}
+
 final class DiaryRegisterViewController: UIViewController {
     // MARK: - properties
     
     private let diaryRegisterView = DiaryRegisterView()
-    
+    weak var delegate: DiaryRegisterViewControllerDelegate?
+
     // MARK: - view life cycle
     
     override func viewDidLoad() {
@@ -42,8 +47,9 @@ final class DiaryRegisterViewController: UIViewController {
                                     body: inputText.body,
                                     createdAt: Double(Date().timeIntervalSince1970))
         
-        CoreDataManager.create()
-    }
+        delegate?.createDiary(diaryModel)
+        
+        }
     
     private func configureKeyboardNotification() {
         NotificationCenter.default.addObserver(self,

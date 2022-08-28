@@ -7,12 +7,18 @@
 
 import UIKit
 
+protocol DiaryDetailViewControllerDelegate: AnyObject {
+    func deleteDiary(createdAt: Double)
+    func updateDiary(_ diaryInfo: DiaryProtocol)
+}
+
 class DiaryDetailViewController: UIViewController {
     // MARK: - properties
     
     private let diaryDetailView = DiaryDetailView()
     var diaryDetailData: DiaryModel?
-    
+    weak var delegate: DiaryDetailViewControllerDelegate?
+
     // MARK: - view life cycle
     
     override func viewDidLoad() {
@@ -44,8 +50,16 @@ class DiaryDetailViewController: UIViewController {
         let diaryModel = DiaryModel(title: inputText.title,
                                     body: inputText.body,
                                     createdAt: diaryDetailData?.createdAt ?? Double())
+
+        delegate?.updateDiary(diaryModel)
+    }
+    
+    func deleteDiaryData() {
+        guard let createdAt = diaryDetailData?.createdAt else { return }
         
-        CoreDataManager.update(DiaryModel)
+        delegate?.deleteDiary(createdAt: createdAt)
+        
+        navigationController?.popViewController(animated: true)
     }
     
     private func configureKeyboardNotification() {
@@ -100,14 +114,6 @@ class DiaryDetailViewController: UIViewController {
         alertController.addAction(deleteAlertAction)
         
         present(alertController, animated: true)
-    }
-    
-    private func deleteDiaryData() {
-        guard let createdAt = diaryDetailData?.createdAt else { return }
-        
-        CoreDataManager.shared.delete(createdAt: createdAt)
-        
-        navigationController?.popViewController(animated: true)
     }
     
     @objc private func rightBarButtonDidTap() {

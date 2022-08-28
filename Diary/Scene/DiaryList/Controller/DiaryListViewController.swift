@@ -7,22 +7,20 @@
 
 import UIKit
 
-protocol DirayListViewControllerDelegate: AnyObject {
-    
-}
-
 final class DiaryListViewController: UIViewController {
     // MARK: - properties
-
+    
     private var tableView = UITableView()
-    private var diaryData: DiaryDataManagerProtocol?
-
+    private var diaryManager: DiaryManager?
+    private var diaryItems: [DiaryModel]?
+    
+    
     // MARK: - view life cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-
+        diaryManager = CoreDataManager()
         configureNavigationBarItems()
         configureView()
         configureViewLayout()
@@ -33,16 +31,22 @@ final class DiaryListViewController: UIViewController {
         
         reloadView()
     }
-
+    
     // MARK: - methods
 
     private func reloadView() {
-        diaryData = DiaryDataManager().provider
+        
         tableView.reloadData()
     }
     
+    private func deleteDiaryData(index: Int) {
+//        guard let createdAt = diaryItems?[index].createdAt else { return }
+        
+        reloadView()
+    }
+    
     private func shareAlertActionDidTap(index: Int) {
-        let title = diaryData?.diaryItems?[index].title
+        let title = diaryItems?[index].title
         let activityViewController = UIActivityViewController(activityItems: [title as Any],
                                                               applicationActivities: nil)
         
@@ -65,39 +69,33 @@ final class DiaryListViewController: UIViewController {
         present(alertController, animated: true)
     }
     
-    private func deleteDiaryData(index: Int) {
-        guard let createdAt = diaryData?.diaryItems?[index].createdAt else { return }
-        
-        CoreDataManager.shared.delete(createdAt: createdAt)
-
-        reloadView()
-    }
-    
     private func configureNavigationBarItems() {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add,
                                          target: self,
                                          action: #selector(tappedPlusButton))
-
+        
         navigationItem.rightBarButtonItem = plusButton
         navigationItem.title = Design.navigationTitle
     }
     
     @objc private func tappedPlusButton() {
-        navigationController?.pushViewController(DiaryRegisterViewController(), animated: true)
+        let registerViewController = DiaryRegisterViewController()
+        registerViewController.delegate = self
+        navigationController?.pushViewController(registerViewController, animated: true)
     }
     
     // MARK: - Layout Methods
-
+    
     private func configureView() {
         view.addSubview(tableView)
-
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(DiaryTableViewCell.self,
-                            forCellReuseIdentifier: DiaryTableViewCell.reuseIdentifier)
+                           forCellReuseIdentifier: DiaryTableViewCell.reuseIdentifier)
     }
-
+    
     private func configureViewLayout() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -112,17 +110,17 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        diaryData?.diaryItems?.count ?? 0
+        diaryItems?.count ?? 0
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.reuseIdentifier)
                 as? DiaryTableViewCell else { return UITableViewCell() }
-
-        cell.titleLabel.text = diaryData?.diaryItems?[indexPath.row].title
-        cell.dateLabel.text = diaryData?.diaryItems?[indexPath.row].createdAt.convertDate()
-        cell.bodyLabel.text = diaryData?.diaryItems?[indexPath.row].body
-
+        
+        cell.titleLabel.text = diaryItems?[indexPath.row].title
+        cell.dateLabel.text = diaryItems?[indexPath.row].createdAt.convertDate()
+        cell.bodyLabel.text = diaryItems?[indexPath.row].body
+        
         return cell
     }
 }
@@ -130,7 +128,8 @@ extension DiaryListViewController: UITableViewDataSource {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
-        diaryDetailViewController.diaryDetailData = diaryData?.diaryItems?[indexPath.row]
+        diaryDetailViewController.delegate = self
+        diaryDetailViewController.diaryDetailData = diaryItems?[indexPath.row]
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
@@ -150,6 +149,24 @@ extension DiaryListViewController: UITableViewDelegate {
     }
 }
 
+extension DiaryListViewController: DiaryDetailViewControllerDelegate, DiaryRegisterViewControllerDelegate {
+    func createDiary(_ diaryInfo: DiaryProtocol) {
+        diaryManager?.create(diaryInfo)
+        tableView.reloadData()
+    }
+    
+    func deleteDiary(createdAt: Double) {
+        diaryManager?.delete(createdAt: createdAt)
+        tableView.reloadData()
+    }
+    
+    func updateDiary(_ diaryInfo: DiaryProtocol) {
+        diaryManager?.update(diaryInfo)
+        tableView.reloadData()
+    }
+    
+    
+}
 // MARK: - Design
 
 private enum Design {

@@ -21,7 +21,7 @@ class CoreDataManager: DiaryManager {
         appDelegate?.persistentContainer.viewContext
     }
     
-    private init() {}
+    init() {}
     
     func create(_ diaryInfo: DiaryProtocol) {
         guard let context = context,
@@ -57,6 +57,7 @@ class CoreDataManager: DiaryManager {
         return diaryList
     }
     
+    @discardableResult
     func update(_ diaryInfo: DiaryProtocol) -> DiaryProtocol? {
         guard let diaryList = try? context?.fetch(Diary.fetchRequest()),
               let diaryData = diaryList.filter({ $0.createdAt == diaryInfo.createdAt }).first

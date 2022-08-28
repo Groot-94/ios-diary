@@ -9,8 +9,7 @@ import Foundation
 import CoreData
 import UIKit.UIApplication
 
-class CoreDataManager {
-    static let shared = CoreDataManager()
+class CoreDataManager: DiaryManager {
     
     private var appDelegate: AppDelegate? {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
@@ -24,20 +23,28 @@ class CoreDataManager {
     
     private init() {}
     
-    func create(newDiary: DiaryModel) {
+    func create(_ diaryInfo: DiaryProtocol) {
         guard let context = context,
               let entity = NSEntityDescription.entity(forEntityName: NameSpace.entityName, in: context)
         else { return }
         
         let diary = NSManagedObject(entity: entity, insertInto: context)
-        diary.setValue(newDiary.title, forKey: NameSpace.titleKeyName)
-        diary.setValue(newDiary.body, forKey: NameSpace.bodyKeyName)
-        diary.setValue(newDiary.createdAt, forKey: NameSpace.createdAtKeyName)
+        diary.setValue(diaryInfo.title, forKey: NameSpace.titleKeyName)
+        diary.setValue(diaryInfo.body, forKey: NameSpace.bodyKeyName)
+        diary.setValue(diaryInfo.createdAt, forKey: NameSpace.createdAtKeyName)
         
         appDelegate?.saveContext()
     }
     
-    func read() -> [DiaryModel]? {
+    func read(createdAt: Double) -> DiaryProtocol? {
+        guard let fetchList = try? context?.fetch(Diary.fetchRequest()),
+              let diaryList = fetchList.filter({ $0.createdAt == createdAt }).first
+        else { return nil }
+        
+        return diaryList
+    }
+    
+    func readAll() -> [DiaryModel]? {
         guard let fetchList = try? context?.fetch(Diary.fetchRequest()) as? [Diary]
         else { return nil }
         
@@ -50,16 +57,18 @@ class CoreDataManager {
         return diaryList
     }
     
-    func update(diary: DiaryModel) {
+    func update(_ diaryInfo: DiaryProtocol) -> DiaryProtocol? {
         guard let diaryList = try? context?.fetch(Diary.fetchRequest()),
-              let diaryData = diaryList.filter({ $0.createdAt == diary.createdAt }).first
-        else { return }
+              let diaryData = diaryList.filter({ $0.createdAt == diaryInfo.createdAt }).first
+        else { return nil }
         
-        diaryData.setValue(diary.title, forKey: NameSpace.titleKeyName)
-        diaryData.setValue(diary.body, forKey: NameSpace.bodyKeyName)
-        diaryData.setValue(diary.createdAt, forKey: NameSpace.createdAtKeyName)
+        diaryData.setValue(diaryInfo.title, forKey: NameSpace.titleKeyName)
+        diaryData.setValue(diaryInfo.body, forKey: NameSpace.bodyKeyName)
+        diaryData.setValue(diaryInfo.createdAt, forKey: NameSpace.createdAtKeyName)
         
         appDelegate?.saveContext()
+        
+        return diaryData
     }
     
     func delete(createdAt: Double) {

@@ -50,9 +50,9 @@
 		37E9D3F428AE0846003611C0 /* Double+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+extension.swift"; sourceTree = "<group>"; };
 		37E9D3FC28AE555A003611C0 /* DiaryRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRegisterViewController.swift; sourceTree = "<group>"; };
 		73875F12A28B2F8360640592 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
+		7E6D2CC828BB423100F9D960 /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E6D2CC928BB423100F9D960 /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EADF21428B744B00036138C /* DiaryDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDataManager.swift; sourceTree = "<group>"; };
-		7EADF21928B789D70036138C /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Diary.app; path = "/Users/NAMU/Documents/Yagom/ios-diary/build/Debug-iphoneos/Diary.app"; sourceTree = "<absolute>"; };
-		7EADF21A28B789D70036138C /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = DiaryTests.xctest; path = "/Users/NAMU/Documents/Yagom/ios-diary/build/Debug-iphoneos/DiaryTests.xctest"; sourceTree = "<absolute>"; };
 		7EADF21B28B78DB40036138C /* DiaryRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRegisterView.swift; sourceTree = "<group>"; };
 		7EADF21E28B883600036138C /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
 		7EF147B928AC82AA00F142B2 /* DiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModel.swift; sourceTree = "<group>"; };
@@ -228,6 +228,8 @@
 				C739AE23284DF28600741E8F /* Diary */,
 				37130A0628AC8471008F7A35 /* DiaryTests */,
 				D3B584185BE98AB88F7F40A8 /* Pods */,
+				7E6D2CC828BB423100F9D960 /* Diary.app */,
+				7E6D2CC928BB423100F9D960 /* DiaryTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -271,7 +273,7 @@
 			);
 			name = DiaryTests;
 			productName = DiaryTests;
-			productReference = 7EADF21A28B789D70036138C /* DiaryTests.xctest */;
+			productReference = 7E6D2CC928BB423100F9D960 /* DiaryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		C739AE20284DF28600741E8F /* Diary */ = {
@@ -290,7 +292,7 @@
 			);
 			name = Diary;
 			productName = Diary;
-			productReference = 7EADF21928B789D70036138C /* Diary.app */;
+			productReference = 7E6D2CC828BB423100F9D960 /* Diary.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -353,7 +355,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3743CC4E28AC7CBC0049F5E3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -364,7 +366,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};

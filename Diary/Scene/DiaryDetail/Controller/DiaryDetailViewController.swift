@@ -45,7 +45,7 @@ class DiaryDetailViewController: UIViewController {
                                     body: inputText.body,
                                     createdAt: diaryDetailData?.createdAt ?? Double())
         
-        CoreDataManager.shared.update(diary: diaryModel)
+        CoreDataManager.update(DiaryModel)
     }
     
     private func configureKeyboardNotification() {

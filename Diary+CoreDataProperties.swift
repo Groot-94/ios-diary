@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-extension Diary {
+extension Diary: DiaryProtocol {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Diary> {
         return NSFetchRequest<Diary>(entityName: "Diary")

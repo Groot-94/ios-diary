@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol DirayListViewControllerDelegate: AnyObject {
+    
+}
+
 final class DiaryListViewController: UIViewController {
     // MARK: - properties
 

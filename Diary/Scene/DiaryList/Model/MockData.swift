@@ -8,7 +8,7 @@
 import UIKit
 
 struct MockData: DiaryDataManagerProtocol {
-    var diaryItems: [DiaryModel]?
+    var diaryItems: [DiaryDTO]?
 
     init() {
         let data = NSDataAsset(name: "testSample")

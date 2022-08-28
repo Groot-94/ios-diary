@@ -130,7 +130,7 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
         diaryDetailViewController.delegate = self
-        diaryDetailViewController.diaryDetailData = diaryItems?[indexPath.row] as! DiaryModel
+        diaryDetailViewController.diaryDetailData = diaryItems?[indexPath.row] as? DiaryDTO
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }

@@ -48,9 +48,9 @@ class CoreDataManager: DiaryManager {
         guard let fetchList = try? context?.fetch(Diary.fetchRequest()) as? [Diary]
         else { return nil }
         
-        var diaryList = [DiaryModel]()
+        var diaryList = [DiaryDTO]()
         
-        fetchList.forEach { diaryList.append(DiaryModel(title: $0.title,
+        fetchList.forEach { diaryList.append(DiaryDTO(title: $0.title,
                                                         body: $0.body,
                                                         createdAt: $0.createdAt))}
         

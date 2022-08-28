@@ -43,7 +43,7 @@ final class DiaryRegisterViewController: UIViewController {
         
         guard inputText.title != "" || inputText.body != "" else { return }
         
-        let diaryModel = DiaryModel(title: inputText.title,
+        let diaryModel = DiaryDTO(title: inputText.title,
                                     body: inputText.body,
                                     createdAt: Double(Date().timeIntervalSince1970))
         

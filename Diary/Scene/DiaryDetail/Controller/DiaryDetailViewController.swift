@@ -16,7 +16,7 @@ class DiaryDetailViewController: UIViewController {
     // MARK: - properties
     
     private let diaryDetailView = DiaryDetailView()
-    var diaryDetailData: DiaryModel?
+    var diaryDetailData: DiaryDTO?
     weak var delegate: DiaryDetailViewControllerDelegate?
 
     // MARK: - view life cycle
@@ -47,7 +47,7 @@ class DiaryDetailViewController: UIViewController {
         let inputText = diaryDetailView.seperateText()
         guard inputText.title != "" || inputText.body != "" else { return }
         
-        let diaryModel = DiaryModel(title: inputText.title,
+        let diaryModel = DiaryDTO(title: inputText.title,
                                     body: inputText.body,
                                     createdAt: diaryDetailData?.createdAt ?? Double())
 

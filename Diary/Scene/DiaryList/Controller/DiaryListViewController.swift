@@ -12,7 +12,7 @@ final class DiaryListViewController: UIViewController {
     
     private var tableView = UITableView()
     private var diaryManager: DiaryManager?
-    private var diaryItems: [DiaryModel]?
+    private var diaryItems: [DiaryProtocol]?
     
     
     // MARK: - view life cycle
@@ -21,6 +21,7 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         diaryManager = CoreDataManager()
+        diaryItems = diaryManager?.readAll()
         configureNavigationBarItems()
         configureView()
         configureViewLayout()
@@ -129,7 +130,7 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
         diaryDetailViewController.delegate = self
-        diaryDetailViewController.diaryDetailData = diaryItems?[indexPath.row]
+        diaryDetailViewController.diaryDetailData = diaryItems?[indexPath.row] as! DiaryModel
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
@@ -152,16 +153,22 @@ extension DiaryListViewController: UITableViewDelegate {
 extension DiaryListViewController: DiaryDetailViewControllerDelegate, DiaryRegisterViewControllerDelegate {
     func createDiary(_ diaryInfo: DiaryProtocol) {
         diaryManager?.create(diaryInfo)
+        diaryItems = diaryManager?.readAll()
+
         tableView.reloadData()
     }
     
     func deleteDiary(createdAt: Double) {
         diaryManager?.delete(createdAt: createdAt)
+        diaryItems = diaryManager?.readAll()
+
         tableView.reloadData()
     }
     
     func updateDiary(_ diaryInfo: DiaryProtocol) {
         diaryManager?.update(diaryInfo)
+        diaryItems = diaryManager?.readAll()
+
         tableView.reloadData()
     }
     

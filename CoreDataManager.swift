@@ -44,7 +44,7 @@ class CoreDataManager: DiaryManager {
         return diaryList
     }
     
-    func readAll() -> [DiaryModel]? {
+    func readAll() -> [DiaryProtocol]? {
         guard let fetchList = try? context?.fetch(Diary.fetchRequest()) as? [Diary]
         else { return nil }
         

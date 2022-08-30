@@ -10,7 +10,7 @@ import CoreData
 protocol CoreDataManagerProtocol {
     associatedtype Entity
     
-    var persistent: PersistentType { get }
+    var persistent: ContainerType { get }
 }
 
 extension CoreDataManagerProtocol {
@@ -18,7 +18,7 @@ extension CoreDataManagerProtocol {
         return persistent.context
     }
     
-    func createObcject(entityKeyValue: [String: Any]) {
+    func createObject(entityKeyValue: [String: Any]) {
         guard let entity = NSEntityDescription.entity(forEntityName: persistent.entityName,
                                                       in: context)
         else { return }
@@ -29,19 +29,19 @@ extension CoreDataManagerProtocol {
         saveContext()
     }
     
-    func readObcject<Entity>(request: NSFetchRequest<Entity>) -> [Entity]? {
-        guard let fetchList = try? context.fetch(request) else { return nil }
+    func readObject<Entity>(request: NSFetchRequest<Entity>) -> [Entity]? {
+        guard let fetchList = try? context.fetch(request) as [Entity] else { return nil }
         
         return fetchList
     }
     
-    func updateObcject(object: NSManagedObject, entityKeyValue: [String: Any]) {
+    func updateObject(object: NSManagedObject, entityKeyValue: [String: Any]) {
         entityKeyValue.forEach { object.setValue($0.value, forKey: $0.key) }
         
         saveContext()
     }
     
-    func deleteObcject(object: NSManagedObject) {
+    func deleteObject(object: NSManagedObject) {
         context.delete(object)
         
         saveContext()

@@ -7,7 +7,7 @@
 
 import CoreData
 
-class DefaultContainer {
+final class DefaultContainer {
     let modelName: String
     let entityName: String
     
@@ -18,7 +18,7 @@ class DefaultContainer {
     
     private lazy var persistentContainer: NSPersistentContainer = {
 
-        let container = NSPersistentContainer(name: "Diary")
+        let container = NSPersistentContainer(name: entityName)
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")

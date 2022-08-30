@@ -1,5 +1,5 @@
 //
-//  PersistentType.swift
+//  ContainerType.swift
 //  Diary
 //
 //  Created by NAMU on 2022/08/28.
@@ -7,7 +7,7 @@
 
 import CoreData
 
-enum PersistentType {
+enum ContainerType {
     case container(DefaultContainer)
     case custom(CustomContainer)
     

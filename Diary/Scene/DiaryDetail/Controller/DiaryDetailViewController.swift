@@ -45,7 +45,7 @@ class DiaryDetailViewController: UIViewController {
                                     body: inputText.body,
                                     createdAt: diaryDetailData?.createdAt ?? Double())
         
-        CoreDataManager.shared.update(diary: diaryModel)
+        DiaryCoreDataManager.shared.update(diary: diaryModel)
     }
     
     private func configureKeyboardNotification() {
@@ -105,7 +105,7 @@ class DiaryDetailViewController: UIViewController {
     private func deleteDiaryData() {
         guard let createdAt = diaryDetailData?.createdAt else { return }
         
-        CoreDataManager.shared.delete(createdAt: createdAt)
+        DiaryCoreDataManager.shared.delete(createdAt: createdAt)
         
         navigationController?.popViewController(animated: true)
     }

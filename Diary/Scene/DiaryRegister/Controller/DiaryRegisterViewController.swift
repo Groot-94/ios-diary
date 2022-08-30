@@ -42,7 +42,7 @@ final class DiaryRegisterViewController: UIViewController {
                                     body: inputText.body,
                                     createdAt: Double(Date().timeIntervalSince1970))
         
-        CoreDataManager.shared.create(newDiary: diaryModel)
+        DiaryCoreDataManager.shared.create(newDiary: diaryModel)
     }
     
     private func configureKeyboardNotification() {

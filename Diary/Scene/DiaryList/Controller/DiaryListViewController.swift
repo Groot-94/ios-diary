@@ -64,7 +64,7 @@ final class DiaryListViewController: UIViewController {
     private func deleteDiaryData(index: Int) {
         guard let createdAt = diaryData?.diaryItems?[index].createdAt else { return }
         
-        CoreDataManager.shared.delete(createdAt: createdAt)
+        DiaryCoreDataManager.shared.delete(createdAt: createdAt)
 
         reloadView()
     }

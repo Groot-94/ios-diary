@@ -1,5 +1,5 @@
 //
-//  CoreDataManager.swift
+//  DiaryCoreDataManager.swift
 //  Diary
 //
 //  Created by 재재, 그루트 on 2022/08/25.
@@ -9,13 +9,13 @@ import Foundation
 import CoreData
 import UIKit.UIApplication
 
-class CoreDataManager: CoreDataManagerProtocol {
+class DiaryCoreDataManager: CoreDataManagerProtocol {
     typealias Entity = Diary
     
-    static let shared = CoreDataManager()
+    static let shared = DiaryCoreDataManager()
     private let container = DefaultContainer(modelName: NameSpace.modelName,
-                                    entityName: NameSpace.entityName)
-    var persistent: PersistentType {
+                                             entityName: NameSpace.entityName)
+    var persistent: ContainerType {
         .container(container)
     }
     
@@ -28,12 +28,11 @@ class CoreDataManager: CoreDataManagerProtocol {
             NameSpace.createdAtKeyName: newDiary.createdAt
         ] as [String: Any]
         
-        createObcject(entityKeyValue: keyValue)
+        createObject(entityKeyValue: keyValue)
     }
     
     func read() -> [DiaryModel]? {
-        guard let fetchList = readObcject(request: Diary.fetchRequest()) as? [Diary]
-        else { return nil }
+        guard let fetchList = readObject(request: Diary.fetchRequest()) else { return nil }
         
         var diaryList = [DiaryModel]()
         
@@ -55,7 +54,7 @@ class CoreDataManager: CoreDataManagerProtocol {
             NameSpace.createdAtKeyName: diary.createdAt
         ] as [String: Any]
         
-        updateObcject(object: diaryData, entityKeyValue: keyValue)
+        updateObject(object: diaryData, entityKeyValue: keyValue)
     }
     
     func delete(createdAt: Double) {
@@ -63,7 +62,7 @@ class CoreDataManager: CoreDataManagerProtocol {
               let diaryData = diaryList.filter({ $0.createdAt == createdAt }).first
         else { return }
         
-        deleteObcject(object: diaryData)
+        deleteObject(object: diaryData)
     }
 }
 

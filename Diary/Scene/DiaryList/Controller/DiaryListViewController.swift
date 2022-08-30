@@ -166,7 +166,7 @@ extension DiaryListViewController: DiaryDetailViewControllerDelegate, DiaryRegis
     }
     
     func updateDiary(_ diaryInfo: DiaryProtocol) {
-        diaryManager?.update(diaryInfo)
+//        diaryManager?.update(diaryInfo)
         diaryItems = diaryManager?.readAll()
 
         tableView.reloadData()

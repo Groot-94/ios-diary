@@ -48,7 +48,6 @@ final class DiaryRegisterViewController: UIViewController {
                                     createdAt: Double(Date().timeIntervalSince1970))
         
         delegate?.createDiary(diaryModel)
-        
         }
     
     private func configureKeyboardNotification() {

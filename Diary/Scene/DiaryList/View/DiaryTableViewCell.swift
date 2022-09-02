@@ -82,6 +82,11 @@ final class DiaryTableViewCell: UITableViewCell {
 
     // MARK: - methods
 
+    override func prepareForReuse(){
+        super.prepareForReuse()
+        iconImageView.image = nil
+    }
+    
     private func commonInit() {
         configureView()
         configureViewLayouts()
@@ -104,3 +109,4 @@ final class DiaryTableViewCell: UITableViewCell {
         ])
     }
 }
+

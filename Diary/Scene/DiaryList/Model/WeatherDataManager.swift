@@ -33,7 +33,7 @@ struct WeatherDataManager {
     }
     
     func iconRequest(id: String, completion: @escaping(UIImage?) -> Void) {
-        guard let url = URL(string: "https://openweathermap.org/img/wn/\(id)@2x.png")
+        guard let url = URL(string: "https://openweathermap.org/img/wn/\(id).png")
         else { return }
         
         let dataTask = session.dataTask(with: url) { data, response, error in

@@ -9,10 +9,12 @@ import UIKit
 
 struct MockData: DiaryDataManagerProtocol {
     var diaryItems: [DiaryModel]?
+    
+    var diaryItem: [DiaryData]?
 
     init() {
         let data = NSDataAsset(name: "testSample")
 
-        self.diaryItems = decode(data: data?.data ?? Data())
+        self.diaryItem = decode(data: data?.data ?? Data())
     }
 }

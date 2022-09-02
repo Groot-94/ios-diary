@@ -46,6 +46,8 @@ final class CoreDataManager {
         diary.setValue(newDiary.title, forKey: NameSpace.titleKeyName)
         diary.setValue(newDiary.body, forKey: NameSpace.bodyKeyName)
         diary.setValue(newDiary.createdAt, forKey: NameSpace.createdAtKeyName)
+        diary.setValue(newDiary.icon, forKey: "icon")
+        diary.setValue(newDiary.main, forKey: "main")
         
         appDelegate?.saveContext()
     }
@@ -58,7 +60,9 @@ final class CoreDataManager {
         
         fetchList.forEach { diaryList.append(DiaryModel(title: $0.title,
                                                         body: $0.body,
-                                                        createdAt: $0.createdAt))}
+                                                        createdAt: $0.createdAt,
+                                                        main: $0.main,
+                                                        icon: $0.icon))}
         
         return diaryList
     }
@@ -71,7 +75,7 @@ final class CoreDataManager {
         diaryData.setValue(diary.title, forKey: NameSpace.titleKeyName)
         diaryData.setValue(diary.body, forKey: NameSpace.bodyKeyName)
         diaryData.setValue(diary.createdAt, forKey: NameSpace.createdAtKeyName)
-        
+
         appDelegate?.saveContext()
     }
     

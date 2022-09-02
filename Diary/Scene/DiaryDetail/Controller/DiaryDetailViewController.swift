@@ -51,6 +51,8 @@ final class DiaryDetailViewController: DataTaskViewController {
         saveDiaryData(title: inputText.title,
                       body: inputText.body,
                       createdAt: diaryDetailData?.createdAt ?? Double(),
+                      main: diaryDetailData?.main ?? "",
+                      icon: diaryDetailData?.icon ?? "",
                       isExist: true)
     }
     

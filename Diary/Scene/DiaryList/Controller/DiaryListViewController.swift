@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     // MARK: - Design
-
+    
     private enum Design {
         static let navigationTitle = "일기장"
         static let alertControllerTitle = "진짜요?"
@@ -20,16 +20,16 @@ final class DiaryListViewController: UIViewController {
     }
     
     // MARK: - properties
-
+    
     private var tableView = UITableView()
     private var diaryData: DiaryDataManagerProtocol?
-
+    
     // MARK: - view life cycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-
+        
         configureNavigationBarItems()
         configureView()
         configureViewLayout()
@@ -40,9 +40,9 @@ final class DiaryListViewController: UIViewController {
         
         reloadView()
     }
-
+    
     // MARK: - methods
-
+    
     private func reloadView() {
         diaryData = DiaryDataManager().provider
         tableView.reloadData()
@@ -82,7 +82,7 @@ final class DiaryListViewController: UIViewController {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add,
                                          target: self,
                                          action: #selector(tappedPlusButton))
-
+        
         navigationItem.rightBarButtonItem = plusButton
         navigationItem.title = Design.navigationTitle
     }
@@ -92,17 +92,17 @@ final class DiaryListViewController: UIViewController {
     }
     
     // MARK: - Layout Methods
-
+    
     private func configureView() {
         view.addSubview(tableView)
-
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(DiaryTableViewCell.self,
-                            forCellReuseIdentifier: DiaryTableViewCell.reuseIdentifier)
+                           forCellReuseIdentifier: DiaryTableViewCell.reuseIdentifier)
     }
-
+    
     private func configureViewLayout() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -119,15 +119,22 @@ extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         diaryData?.diaryItems?.count ?? 0
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.reuseIdentifier)
                 as? DiaryTableViewCell else { return UITableViewCell() }
-
+        
         cell.titleLabel.text = diaryData?.diaryItems?[indexPath.row].title
         cell.dateLabel.text = diaryData?.diaryItems?[indexPath.row].createdAt.convertDate()
         cell.bodyLabel.text = diaryData?.diaryItems?[indexPath.row].body
-
+        
+        let weatherDataManager = WeatherDataManager()
+        weatherDataManager.iconRequest(id: diaryData?.diaryItems?[indexPath.row].icon ?? "") { image in
+            DispatchQueue.main.async {
+                cell.iconImageView.image = image
+            }
+        }
+        
         return cell
     }
 }

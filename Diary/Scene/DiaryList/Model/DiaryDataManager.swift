@@ -6,5 +6,5 @@
 //
 
 struct DiaryDataManager {
-    let provider: DiaryDataManagerProtocol = DiaryData()
+    let provider: DiaryDataManagerProtocol = DiaryDTO()
 }

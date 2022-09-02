@@ -12,8 +12,8 @@ protocol DiaryDataManagerProtocol {
 }
 
 extension DiaryDataManagerProtocol {
-    func decode(data: Data) -> [DiaryModel]? {
-        guard let decodedData = try? JSONDecoder().decode([DiaryModel].self,
+    func decode(data: Data) -> [DiaryData]? {
+        guard let decodedData = try? JSONDecoder().decode([DiaryData].self,
                                                           from: data) else { return nil }
 
         return decodedData

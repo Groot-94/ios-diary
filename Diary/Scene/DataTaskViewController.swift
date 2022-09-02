@@ -12,12 +12,19 @@ class DataTaskViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    func saveDiaryData(title: String, body: String, createdAt: Double, isExist: Bool) {
+    func saveDiaryData(title: String,
+                       body: String,
+                       createdAt: Double,
+                       main: String,
+                       icon: String,
+                       isExist: Bool) {
         guard title != "" || body != "" else { return }
         
         let diaryModel = DiaryModel(title: title,
                                     body: body,
-                                    createdAt: createdAt)
+                                    createdAt: createdAt,
+                                    main: main,
+                                    icon: icon)
         
         if isExist {
             CoreDataManager.shared.update(diary: diaryModel)

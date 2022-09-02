@@ -50,6 +50,15 @@ final class DiaryTableViewCell: UITableViewCell {
 
         return label
     }()
+    
+    let iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        return imageView
+    }()
 
     let bodyLabel: UILabel = {
         let label = UILabel()
@@ -81,7 +90,7 @@ final class DiaryTableViewCell: UITableViewCell {
     private func configureView() {
         contentView.addSubview(mainStackView)
         [titleLabel, subStackView].forEach { mainStackView.addArrangedSubview($0) }
-        [dateLabel, bodyLabel].forEach { subStackView.addArrangedSubview($0) }
+        [dateLabel, iconImageView, bodyLabel].forEach { subStackView.addArrangedSubview($0) }
 
         self.accessoryType = .disclosureIndicator
     }
